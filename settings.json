@@ -1,0 +1,15 @@
+{
+    "mail_from":"anymail@yandex.ru",
+    "mail_from_name":"Sender1",
+    "smtpserver":"smtp.yandex.ru",
+    "smtpport":465,
+    "username": "anymail@yandex.ru",
+    "smtp_password":"1234567890",
+    "domain": "yandex.ru",
+    "tls":true,
+    "plain":false,
+    "debuglevel":0,
+    "connection_timeout_sec": 5,
+    "smtp_timeout_sec": 5,
+    "verify_certificate": false
+}
