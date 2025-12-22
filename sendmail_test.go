@@ -9,8 +9,8 @@ import (
 const (
 	settingsfile = "settingsprivate.json"
 	mailto       = "oleg.powerc@gmail.com"
-	subject      = "тестовое письмо"
-	bsgbody      = "тело письма"
+	subject      = "Тестовое письмо"
+	bsgbody      = "Тело письма"
 )
 
 func TestSendMail(t *testing.T) {
