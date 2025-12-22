@@ -67,7 +67,7 @@ func (a *loginAuth) Next(fromServer []byte, more bool) ([]byte, error) {
 }
 
 /*---------------------------------------------------------------------------*/
-
+// Уберем из команд лишние опасные символы
 func headerconditioner(headerval string) string {
 	headerval = strings.ReplaceAll(headerval, "\r", "")
 	headerval = strings.ReplaceAll(headerval, "\n", "")
