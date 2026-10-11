@@ -18,7 +18,13 @@ const DIALTIMEOUT_MAXSEC = 10
 
 // Максимально допустимое время на операции чтения записи в/из сокета
 const RWTIMEOUT_MAXSEC = 30
+const ERR_SOURCE_SMTP = 2
 
+type MailErr struct {
+	ErrSource int
+	FatalErr  bool
+	FErr      error
+}
 type SMTPSettings struct {
 	MailFrom         string `xml:"mail_from" json:"mail_from"`
 	MailFromName     string `xml:"mail_from_name" json:"mail_from_name"`
@@ -163,7 +169,8 @@ func SendMail(MailAddr string, MSGSubject string, Message string, settings SMTPS
 		conn, errdial = dialer.DialContext(ctx, "tcp", servername)
 	}
 	if errdial != nil {
-		return errdial
+		//Вернем фатальную ошибку
+		return MailErr{FatalErr: true, ErrSource: ERR_SOURCE_SMTP, FErr: errdial}
 	}
 
 	var smtpclient *smtp.Client
@@ -243,4 +250,17 @@ func SendMail(MailAddr string, MSGSubject string, Message string, settings SMTPS
 		return werr
 	}
 	return err
+}
+
+// Реализуем методы для своих типов ошибки
+func (e MailErr) Error() string {
+	fatalstr := ""
+	if e.FatalErr {
+		fatalstr = " fatal,"
+	}
+	return fmt.Sprintf("error source: %d,%s error description: %v", e.ErrSource, fatalstr, e.FErr)
+}
+
+func (e MailErr) Unwrap() error {
+	return e.FErr
 }
